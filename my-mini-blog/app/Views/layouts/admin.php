@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?= $title ?? 'Panel de Administración - MiniBlog' ?></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        admin: {
+                            50: '#f8fafc',
+                            100: '#f1f5f9',
+                            200: '#e2e8f0',
+                            500: '#64748b',
+                            600: '#475569',
+                            700: '#334155',
+                            800: '#1e293b',
+                            900: '#0f172a',
+                        },
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-admin-50 min-h-screen">
+    <div class="flex h-screen">
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Top Header -->
+            <header class="bg-white shadow-sm border-b border-admin-200">
+                <div class="flex items-center justify-between px-6 py-4">
+                    <div class="flex items-center">
+                        <h1 class="text-2xl font-bold text-admin-800">
+                            <a href="<?= base_url('/admin') ?>" class="hover:text-primary-600 transition-colors">
+                                Panel de Administración
+                            </a>
+                        </h1>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+
+                        <!-- View Site -->
+                        <a href="<?= base_url('/') ?>" 
+                           class="px-4 py-2 text-admin-600 hover:text-admin-800 hover:bg-admin-100 rounded-lg transition-colors"
+                           target="_blank">
+                            <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                            </svg>
+                            Ver Sitio
+                        </a>
+
+                        <!-- User Menu -->
+                        <div class="relative">
+                            <button class="flex items-center space-x-3 text-admin-700 hover:text-admin-900 transition-colors" id="user-menu-button">
+                                <span class="font-medium">Administrador</span>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-admin-200 hidden" id="user-menu">
+                                <div class="py-1">
+                                    <a href="#" class="block px-4 py-2 text-sm text-admin-700 hover:bg-admin-50">Mi Perfil</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-admin-700 hover:bg-admin-50">Configuración</a>
+                                    <hr class="my-1 border-admin-200">
+                                    <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">Cerrar Sesión</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="flex-1 flex overflow-hidden">
+                <!-- Content Area -->
+                <main class="flex-1 overflow-y-auto p-6">
+                    <?= $this->renderSection('content') ?>
+                </main>
+
+                <!-- Right Sidebar Menu -->
+                <aside class="w-64 bg-white border-l border-admin-200 overflow-y-auto">
+                    <div class="p-6">
+                        <h2 class="text-lg font-semibold text-admin-800 mb-6">Gestión de Posts</h2>
+                        
+                        <nav class="space-y-2">
+                            <!-- Dashboard -->
+                            <a href="<?= base_url('admin/dashboard') ?>" 
+                               class="flex items-center px-4 py-3 text-admin-700 rounded-lg hover:bg-admin-100 transition-colors <?= (uri_string() == 'admin' || uri_string() == '') ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500' : '' ?>">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"/>
+                                </svg>
+                                Dashboard
+                            </a>
+
+                            <!-- Posts -->
+                            <a href="<?= base_url('admin/posts/all') ?>" 
+                               class="flex items-center px-4 py-3 text-admin-700 rounded-lg hover:bg-admin-100 transition-colors <?= (uri_string() == 'admin' || uri_string() == '') ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500' : '' ?>">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"/>
+                                </svg>
+                                Posts
+                            </a>
+
+                            <!-- Crear -->
+                            <a href="<?= base_url('admin/posts/create') ?>" 
+                               class="flex items-center px-4 py-3 text-admin-700 rounded-lg hover:bg-admin-100 transition-colors <?= (uri_string() == 'admin/posts/create') ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500' : '' ?>">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                                </svg>
+                                Crear Post
+                            </a>
+
+                            <!-- Editar -->
+                            <!-- <a href="<?= base_url('/admin/posts/edit') ?>" 
+                               class="flex items-center px-4 py-3 text-admin-700 rounded-lg hover:bg-admin-100 transition-colors <?= (uri_string() == 'admin/posts/edit') ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500' : '' ?>">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                                </svg>
+                                Editar Posts
+                            </a> -->
+
+                            <!-- Eliminar -->
+                            <!--<a href="<?= base_url('/admin/posts/delete') ?>" 
+                               class="flex items-center px-4 py-3 text-admin-700 rounded-lg hover:bg-admin-100 transition-colors <?= (uri_string() == 'admin/posts/delete') ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500' : '' ?>">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                </svg>
+                                Eliminar Posts
+                            </a> -->
+                        </nav>
+
+                        <!-- Additional Sections -->
+                        <div class="mt-8">
+                            <h3 class="text-sm font-medium text-admin-500 uppercase tracking-wider mb-3">Otros</h3>
+                            <nav class="space-y-2">
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-admin-600 rounded-lg hover:bg-admin-100 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                                    </svg>
+                                    Categorías
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-admin-600 rounded-lg hover:bg-admin-100 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586l-2.586-2.586A2 2 0 014 14.172V6a2 2 0 012-2h6a2 2 0 012 2v2.28a3 3 0 013 2.72z"/>
+                                    </svg>
+                                    Comentarios
+                                </a>
+                                <a href="#" class="flex items-center px-4 py-2 text-sm text-admin-600 rounded-lg hover:bg-admin-100 transition-colors">
+                                    <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                    </svg>
+                                    Configuración
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User menu dropdown
+        document.getElementById('user-menu-button').addEventListener('click', function() {
+            const userMenu = document.getElementById('user-menu');
+            userMenu.classList.toggle('hidden');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenuButton = document.getElementById('user-menu-button');
+            const userMenu = document.getElementById('user-menu');
+            
+            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+                userMenu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

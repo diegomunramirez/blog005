@@ -128,16 +128,20 @@ class Admin extends BaseController{
     }
 
     public function dashboard(){
-        //return '<h1>This is the dashboard</h1>';
+        $lastPosts = $this->postModel->orderBy('created_at', 'DESC')
+                               ->paginate(15);
         $data = [
-            'posts' => $this->getPosts()
+            'posts' => $lastPosts
         ];
         return view('admin/dashboard',$data);
     }
 
     public function index(){
+        $posts = $this->postModel->orderBy('created_at', 'DESC')
+                               ->paginate(15);
         $data = [
-            'posts' => $this->getPosts()
+            'title' => 'Administrar Todos los Posts - MiniBlog',
+            'posts' => $posts
         ];
         return view('admin/posts/index',$data);
     }
@@ -147,17 +151,33 @@ class Admin extends BaseController{
         return view('admin/posts/create');
     }
 
-    //guarda el post entrante
-/**
-     * Guardar nuevo post
-     */
+    //crear el post
     public function store()
     {
+        $file = $this->request->getFile('image');
 
-        //print_r($this->request);
-        dd($this->request->getPost());
-        //return 'Titulo:'.$this->request->getPost('title');
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move(ROOTPATH . 'public/uploads/images/posts', $newName);
 
+            $idPost = $this->postModel->insert([
+                'title'      => $this->request->getPost('title'),
+                'category'   => $this->request->getPost('category'),
+                'image_path'      => $newName,
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($idPost) {
+                return redirect()->to('admin/posts')->with('message', 'Entrada guardada correctamente.');
+            } else {
+                throw new \Exception('Error al insertar el post en la base de datos');
+            }
+
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Error al subir la imagen.');
+        }
+
+        /*
         try {
             // Validar datos del formulario
             $validationRules = [
@@ -217,7 +237,7 @@ class Admin extends BaseController{
         } catch (\Exception $e) {
             log_message('error', 'Error al crear post: ' . $e->getMessage());
             return redirect()->back()->withInput()->with('error', 'Error al crear el post: ' . $e->getMessage());
-        }
+        }*/
     }
 
     /**

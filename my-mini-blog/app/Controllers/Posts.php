@@ -2,117 +2,142 @@
 
 namespace App\Controllers;
 
+use App\Models\PostModel;
+use App\Models\CategoryModel;
+
 class Posts extends BaseController
 {
 
-    private function getPosts(){
-        // Datos de ejemplo (dinámicos) - en producción vendrían de la base de datos
-        $posts = [
-            [
-                'id' => 1,
-                'title' => 'Introducción a CodeIgniter 4: Guía Completa para Principiantes',
-                'slug' => 'introduccion-codeigniter-4-guia-completa',
-                'excerpt' => 'Aprende los fundamentos de CodeIgniter 4, el framework PHP más popular. Desde la instalación hasta crear tu primera aplicación web.',
-                'content' => '',
-                'image' => 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-                'category' => 'Tecnología',
-                'author_name' => 'Luis Torres',
-                'author_avatar' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                'views' => 743,
-                'comments_count' => 12,
-                'reading_time' => 7,
-                'created_at' => '2024-01-08 16:15:00'
-            ],
-            [
-                'id' => 5,
-                'title' => 'Git y GitHub: Control de Versiones para Desarrolladores',
-                'slug' => 'git-github-control-versiones-desarrolladores',
-                'excerpt' => 'Domina Git y GitHub desde cero. Comandos esenciales, workflow de desarrollo y colaboración en equipo.',
-                'content' => '',
-                'image' => 'https://images.unsplash.com/photo-1618477388954-7852f32655ec?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-                'category' => 'Tutoriales',
-                'author_name' => 'Sofia Vargas',
-                'author_avatar' => 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                'views' => 2103,
-                'comments_count' => 45,
-                'reading_time' => 12,
-                'created_at' => '2024-01-05 11:30:00'
-            ],
-            [
-                'id' => 6,
-                'title' => 'Desarrollo Web Full Stack: Tecnologías Esenciales 2024',
-                'slug' => 'desarrollo-web-full-stack-tecnologias-2024',
-                'excerpt' => 'Conoce el stack tecnológico más demandado en 2024. Frontend, backend, bases de datos y herramientas de desarrollo.',
-                'content' => '',
-                'image' => 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-                'category' => 'Tecnología',
-                'author_name' => 'Diego Morales',
-                'author_avatar' => 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                'views' => 1876,
-                'comments_count' => 28,
-                'reading_time' => 15,
-                'created_at' => '2024-01-02 13:45:00'
-            ],
-            [
-                'id' => 7,
-                'title' => 'API REST con CodeIgniter 4: Tutorial Paso a Paso',
-                'slug' => 'api-rest-codeigniter-4-tutorial',
-                'excerpt' => 'Construye una API REST completa usando CodeIgniter 4. Autenticación, validaciones, documentación y testing.',
-                'content' => '',
-                'image' => 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-                'category' => 'Programación',
-                'author_name' => 'Roberto Silva',
-                'author_avatar' => 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                'views' => 1324,
-                'comments_count' => 31,
-                'reading_time' => 18,
-                'created_at' => '2023-12-30 15:20:00'
-            ],
-            [
-                'id' => 8,
-                'title' => 'CSS Grid y Flexbox: Layouts Modernos para Web',
-                'slug' => 'css-grid-flexbox-layouts-modernos',
-                'excerpt' => 'Domina CSS Grid y Flexbox para crear layouts complejos y responsivos. Ejemplos prácticos y casos de uso reales.',
-                'content' => '',
-                'image' => 'https://images.unsplash.com/photo-1523437113738-bbd3cc89fb19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-                'category' => 'Diseño',
-                'author_name' => 'Patricia Jiménez',
-                'author_avatar' => 'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                'views' => 967,
-                'comments_count' => 19,
-                'reading_time' => 9,
-                'created_at' => '2023-12-28 10:15:00'
-            ],
-            [
-                'id' => 9,
-                'title' => 'Seguridad Web: Protege tu Aplicación PHP',
-                'slug' => 'seguridad-web-protege-aplicacion-php',
-                'excerpt' => 'Implementa las mejores prácticas de seguridad en PHP. SQL injection, XSS, CSRF y autenticación segura.',
-                'content' => '',
-                'image' => 'https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
-                'category' => 'Tecnología',
-                'author_name' => 'Fernando López',
-                'author_avatar' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                'views' => 1567,
-                'comments_count' => 22,
-                'reading_time' => 11,
-                'created_at' => '2023-12-25 12:30:00'
-            ]
-        ];
+    protected $postModel;
+    protected $categoryModel;
 
-        return $posts;
+    public function __construct()
+    {
+        $this->postModel = new PostModel();
+        $this->categoryModel = new CategoryModel();
+
     }
 
     public function index()
     {
+        //$posts =  $this->postModel->findAll();
+        $posts = $this->postModel->orderBy('created_at', 'DESC')
+            ->paginate(15);
+        $categories =  $this->categoryModel->findAll();
         $data = [
             'title' => 'Todos los Posts - MiniBlog',
-            'posts' => $this->getPosts()
+            'posts' => $posts,
+            'categories' => $categories
         ];
 
         return view('posts/index', $data);
     }
 
+    //crear el post
+    public function store()
+    {
+        $validationRules = [
+            'title'    => 'required|string',
+            'category' => 'required|string',
+            'image'    => [
+                'uploaded[image]',
+                'mime_in[image,image/png,image/jpg,image/jpeg]',
+                'max_size[image,2048]'
+            ]
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+        $file = $this->request->getFile('image');
+
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getName();
+            $file->move(ROOTPATH . 'public/uploads/images/posts', $newName);
+
+            $idPost = $this->postModel->insert([
+                'title'      => $this->request->getPost('title'),
+                'category'   => $this->request->getPost('category'),
+                'content' => $this->request->getPost('content'),
+                'slug' => url_title(url_title($this->request->getPost('title'), '-', true)),
+                'image_path'      => $newName,
+                'reading_time' => $this->request->getPost('reading_time'),
+                'status' => 'published',
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+
+            if ($idPost) {
+                return redirect()->to('admin/posts/all')->with('message', 'Post guardada correctamente.');
+            } else {
+                throw new \Exception('Error al insertar el post en la base de datos');
+            }
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Error al subir la imagen.');
+        }
+    }
 
 
+    public function edit($id)
+    {
+        $post = $this->postModel->find($id);
+        return view('admin/posts/edit', ['post' => $post]);
+    }
+
+
+    public function update()
+    {
+        $validationRules = [
+            'title'    => 'required|string',
+            'category' => 'required|string',
+            'image'    => [
+                'mime_in[image,image/png,image/jpg,image/jpeg]',
+                'max_size[image,2048]'
+            ]
+        ];
+
+        if (!$this->validate($validationRules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $id = $this->request->getPost('id');
+        $post = $this->postModel->find($id);
+
+        if (!$post) {
+            throw new \Exception('El post a actualizar no existe');
+        }
+
+        $data = [
+            'title'        => $this->request->getPost('title'),
+            'category'     => $this->request->getPost('category'),
+            'content'      => $this->request->getPost('content'),
+            'slug'         => url_title($this->request->getPost('title'), '-', true),
+            'reading_time' => $this->request->getPost('reading_time'),
+        ];
+
+        $file = $this->request->getFile('image');
+
+        // Solo actualizar la imagen si se subió una válida
+        if ($file && $file->isValid() && !$file->hasMoved()) {
+            $newName = $file->getRandomName();
+            $file->move(ROOTPATH . 'public/uploads/images/posts', $newName);
+            $data['image_path'] = $newName;
+        }
+
+        $updated = $this->postModel->update($id, $data);
+
+        if ($updated) {
+            return redirect()->to('admin/posts/edit/' . $id)->with('message', 'Post actualizado correctamente.');
+        } else {
+            throw new \Exception('Error al actualizar el post en la base de datos');
+        }
+    }
+
+
+    public function delete()
+    {
+        $id = $this->request->getPost('id');
+        // Eliminamos el post
+        $this->postModel->delete($id);
+        return redirect()->to('admin/posts/all')->with('success', 'Post eliminado correctamente');
+    }
 }

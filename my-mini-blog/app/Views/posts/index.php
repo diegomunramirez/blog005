@@ -2,13 +2,12 @@
 
 <?= $this->section('content') ?>
 <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <!-- Hero Section -->
     <section class="text-center mb-12">
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-            Bienvenido a MiniBlog
+            Bienvenido a Mi Blog
         </h1>
         <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-            Descubre artículos interesantes sobre tecnología, programación y desarrollo web
+            Descubre artículos interesantes sobre tecnología, programación, desarrollo web y sobre la vida cotidiana.
         </p>
     </section>
 
@@ -32,11 +31,10 @@
                     <!-- Category Filter -->
                     <div class="lg:w-48">
                         <select class="w-full py-3 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all">
-                            <option value="">Todas las categorías</option>
-                            <option value="tecnologia">Tecnología</option>
-                            <option value="programacion">Programación</option>
-                            <option value="diseno">Diseño</option>
-                            <option value="tutoriales">Tutoriales</option>
+                            <option selected disabled> Todas las categorías</option>
+                            <?php foreach($categories as $category): ?>
+                                <option value="<?= $category->id ?>"> <?= $category->name ?> </option>
+                            <?php endforeach?>
                         </select>
                     </div>
 
@@ -60,12 +58,12 @@
                 <article class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1">
                     <!-- Post Image -->
                     <div class="relative">
-                        <img src="<?= $post['image'] ?>" 
-                             alt="<?= esc($post['title']) ?>" 
+                        <img src="<?= base_url('uploads/images/posts/' . $post->image_path) ?>" 
+                             alt="<?= esc('uploads/images/posts/'.$post->image_path) ?>" 
                              class="w-full h-48 object-cover">
                         <div class="absolute top-4 left-4">
                             <span class="bg-primary-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                <?= esc($post['category']) ?>
+                                <?= esc($post->category) ?>
                             </span>
                         </div>
                     </div>
@@ -73,46 +71,21 @@
                     <!-- Post Content -->
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-primary-600 transition-colors">
-                            <a href="<?= base_url('/posts/' . $post['slug']) ?>">
-                                <?= esc($post['title']) ?>
+                            <a href="#"> <!----<?= base_url('/posts/' . $post->slug) ?>--->
+                                <?= esc($post->title) ?>
                             </a>
                         </h3>
-                        
-                        <p class="text-gray-600 mb-4 line-clamp-3">
-                            <?= esc($post['excerpt']) ?>
-                        </p>
-
+                    
                         <!-- Post Meta -->
                         <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
-                            <div class="flex items-center">
-                                <img src="<?= $post['author_avatar'] ?>" 
-                                     alt="<?= esc($post['author_name']) ?>" 
-                                     class="w-8 h-8 rounded-full mr-2">
-                                <span><?= esc($post['author_name']) ?></span>
-                            </div>
-                            <time datetime="<?= $post['created_at'] ?>">
-                                <?= date('M j, Y', strtotime($post['created_at'])) ?>
+                            <time datetime="<?= $post->created_at ?>">
+                                <?= date('M j, Y', strtotime($post->created_at)) ?>
                             </time>
                         </div>
 
                         <!-- Post Stats -->
                         <div class="flex items-center justify-between text-sm text-gray-500">
-                            <div class="flex items-center space-x-4">
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
-                                        <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <?= $post['views'] ?>
-                                </span>
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
-                                    </svg>
-                                    <?= $post['comments_count'] ?>
-                                </span>
-                            </div>
-                            <span class="text-primary-600 font-medium"><?= $post['reading_time'] ?> min</span>
+                            <span class="text-primary-600 font-medium"><?= $post->reading_time ?> min</span>
                         </div>
                     </div>
                 </article>
@@ -131,8 +104,6 @@
         </button>
     </section>
 </div>
-
-<!-- Custom Styles for Line Clamp -->
 <style>
     .line-clamp-3 {
         display: -webkit-box;

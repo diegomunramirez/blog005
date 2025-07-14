@@ -23,6 +23,7 @@
             <div class="mb-4">
                 <label for="image" class="inline-block cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
                     Seleccionar imagen
+                    <span class="text-red-500">*</span>
                 </label>
                    <p class="text-xs text-admin-500 mt-1">Formatos .jpg, .png y jpg</p>
                 <!-- Input oculto -->

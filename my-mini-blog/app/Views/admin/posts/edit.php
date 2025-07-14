@@ -28,7 +28,7 @@
                     Seleccionar imagen
                 </label>
                    <p class="text-xs text-admin-500 mt-1">Formatos .jpg, .png y jpg</p>
-                <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png" required
+                <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png"
                  class="hidden" onchange="previewImage(event)">
                 <!-- Previsualización -->
                 <div id="container-preview" class="flex items-center justify-center">
@@ -47,7 +47,7 @@
             <div class="mb-4">
                 <label for="content" class="block text-gray-700 font-medium mb-1">Contenido <span class="text-red-500">*</span></label>
                 <input type="text" name="content" id="content"
-                value="<?= $post->content ?>a"
+                value="<?= $post->content ?>"
                 class="w-full border-2 rounded-lg no-resize">
             </div>
 

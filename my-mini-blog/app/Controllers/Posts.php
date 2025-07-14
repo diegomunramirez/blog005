@@ -118,7 +118,7 @@ class Posts extends BaseController
 
         // Solo actualizar la imagen si se subió una válida
         if ($file && $file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
+            $newName = $file->getName().'-'.$file->getRandomName();
             $file->move(ROOTPATH . 'public/uploads/images/posts', $newName);
             $data['image_path'] = $newName;
         }

@@ -99,9 +99,8 @@
                             <!-- Dashboard -->
                             <a href="<?= base_url('admin/dashboard') ?>"
                                 class="flex items-center px-4 py-3 text-admin-700 rounded-lg hover:bg-admin-100 transition-colors <?= (uri_string() == 'admin' || uri_string() == '') ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500' : '' ?>">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h7v7H3V3zM14 3h7v4h-7V3zM14 10h7v11h-7V10zM3 14h7v7H3v-7z" />
                                 </svg>
                                 Dashboard
                             </a>
@@ -124,26 +123,7 @@
                                 </svg>
                                 Crear Post
                             </a>
-
-                            <!-- Editar -->
-                            <!-- <a href="<?= base_url('/admin/posts/edit') ?>" 
-                               class="flex items-center px-4 py-3 text-admin-700 rounded-lg hover:bg-admin-100 transition-colors <?= (uri_string() == 'admin/posts/edit') ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500' : '' ?>">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-                                </svg>
-                                Editar Posts
-                            </a> -->
-
-                            <!-- Eliminar -->
-                            <!--<a href="<?= base_url('/admin/posts/delete') ?>" 
-                               class="flex items-center px-4 py-3 text-admin-700 rounded-lg hover:bg-admin-100 transition-colors <?= (uri_string() == 'admin/posts/delete') ? 'bg-primary-50 text-primary-700 border-r-2 border-primary-500' : '' ?>">
-                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
-                                Eliminar Posts
-                            </a> -->
                         </nav>
-
                         <!-- Additional Sections -->
                         <div class="mt-8">
                             <h3 class="text-sm font-medium text-admin-500 uppercase tracking-wider mb-3">Otros</h3>
@@ -162,23 +142,6 @@
         </div>
     </div>
 
-    <script>
-        // User menu dropdown
-        document.getElementById('user-menu-button').addEventListener('click', function() {
-            const userMenu = document.getElementById('user-menu');
-            userMenu.classList.toggle('hidden');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const userMenuButton = document.getElementById('user-menu-button');
-            const userMenu = document.getElementById('user-menu');
-
-            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
-                userMenu.classList.add('hidden');
-            }
-        });
-    </script>
 </body>
 
 </html>

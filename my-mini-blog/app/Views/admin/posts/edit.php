@@ -24,11 +24,16 @@
             </div>
 
             <div class="mb-4">
-                <label for="image" class="block text-gray-700 font-medium mb-1">Imagen </label>
-                <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png"
-                       class="w-full text-gray-700">
-                <p class="text-xs text-admin-500 mt-1">Formatos .jpg, .png y jpg</p>
-
+                <label for="image" class="inline-block cursor-pointer bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
+                    Seleccionar imagen
+                </label>
+                   <p class="text-xs text-admin-500 mt-1">Formatos .jpg, .png y jpg</p>
+                <input type="file" name="image" id="image" accept=".jpg,.jpeg,.png" required
+                 class="hidden" onchange="previewImage(event)">
+                <!-- Previsualización -->
+                <div id="container-preview" class="flex items-center justify-center">
+                    <img id="preview" src="<?= base_url('uploads/images/posts/' . $post->image_path) ?>" alt="Previsualización" class="max-h-48 rounded-md border border-gray-300 shadow-sm mt-2" />
+                </div>
             </div>
 
             <div class="mb-6">
@@ -62,6 +67,26 @@
             </div>
     </form>
     </div>
+        <script>
+    function previewImage(event) {
+        const input = event.target;
+        const preview = document.getElementById('preview');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.classList.remove('hidden');
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.src = '#';
+            preview.classList.add('hidden');
+        }
+    }
+    </script>
 </div>
 <?= $this->endSection('') ?>
                        

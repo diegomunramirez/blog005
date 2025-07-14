@@ -57,7 +57,7 @@
                     <!-- Post Content -->
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-900 mb-3 hover:text-primary-600 transition-colors">
-                            <a href="<?= base_url('/posts/' . $post->slug) ?>">
+                            <a href="#"> <!---<?= base_url('/posts/' . $post->slug) ?>--->
                                 <?= esc($post->title) ?>
                             </a>
                         </h3>

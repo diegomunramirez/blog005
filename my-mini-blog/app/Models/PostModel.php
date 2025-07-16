@@ -14,10 +14,10 @@ class PostModel extends Model
     protected $protectFields = true;
     
 
-        // Campos que se pueden insertar/actualizar
+    // Campos que se pueden insertar/actualizar
     protected $allowedFields = [
         'title',
-        'category',
+        'category_id',
         'slug', 
         'image_path',
         'content',
@@ -25,6 +25,55 @@ class PostModel extends Model
         'status',
         'created_at'
     ];
+
+    public function get_posts_by_category($category_id) {
+        $this->db->where('category_id', $category_id);
+        return $this->db->get('posts')->result();
+    }
+
+    public function get_category_name($category_id) {
+        if (!$category_id) {
+            return 'Sin categoría';
+        }
+        
+        $this->db->select('name');
+        $this->db->where('id', $category_id);
+        $category = $this->db->get('categories')->row();
+        
+        return $category ? $category->name : 'Sin categoría';
+    }
+
+    public function getPostsWithCategory()
+    {
+        return $this->db->table('posts')
+            ->select('posts.*, categories.name as category_name')
+            ->join('categories', 'categories.id = posts.category_id', 'left')
+            ->get()
+            ->getResult();
+    }
+
+    public function get_all_posts() {
+        // Agregar categoría a cada post
+        $posts = $this->findAll();
+
+        foreach ($posts as $post) {
+            $post->category = $this->get_category($post->category_id);
+        }
+        return $posts;
+    }
+
+    private function get_category($category_id) {
+        if (!$category_id) {
+            return (object) array('name' => 'Sin categoría');
+        }
+        
+        $category = $this->db->get_where('categories', array('id' => $category_id))->row();
+        return $category ? $category : (object) array('name' => 'Sin categoría');
+    }
+
+    public function category(){
+        return $this->hasOne('category','App\Models\CategoryModel');
+    }
 
     /*
     // Fechas automáticas

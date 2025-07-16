@@ -43,6 +43,11 @@ class Categories extends BaseController{
 
     public function getCategories(){
         $categories = $this->categoryModel->findAll();
+        return $categories;
     }
+
+
+
+
 
 }

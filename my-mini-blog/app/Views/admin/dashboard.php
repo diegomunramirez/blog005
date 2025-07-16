@@ -80,7 +80,7 @@
                         <img src="<?= base_url('uploads/images/posts/' . $post->image_path) ?>" alt="<?= esc($post->title) ?>" class="w-16 h-16 rounded-lg object-cover flex-shrink-0">
                         <div class="flex-1 min-w-0">
                             <h4 class="text-sm font-medium text-admin-900 truncate"><?= esc($post->title) ?></h4>
-                            <p class="text-sm text-admin-600 mt-1"><?= esc($post->category) ?></p>
+                            <p class="text-sm text-admin-600 mt-1"><?= esc($post->category_name) ?></p>
                             <div class="flex items-center mt-2 text-xs text-admin-500">
                                 <span><?= date('M j, Y', strtotime($post->created_at)) ?></span>
                                 <span class="mx-2">•</span>

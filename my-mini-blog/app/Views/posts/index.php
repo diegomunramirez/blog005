@@ -63,7 +63,7 @@
                              class="w-full h-48 object-cover">
                         <div class="absolute top-4 left-4">
                             <span class="bg-primary-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                                <?= esc($post->category) ?>
+                                 <?= esc($post->category_name) ?>
                             </span>
                         </div>
                     </div>

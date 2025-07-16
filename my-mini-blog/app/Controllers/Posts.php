@@ -20,9 +20,7 @@ class Posts extends BaseController
 
     public function index()
     {
-        //$posts =  $this->postModel->findAll();
-        $posts = $this->postModel->orderBy('created_at', 'DESC')
-            ->paginate(15);
+        $posts = $this->postModel->getPostsWithCategory();    
         $categories =  $this->categoryModel->findAll();
         $data = [
             'title' => 'Todos los Posts - MiniBlog',
@@ -38,7 +36,7 @@ class Posts extends BaseController
     {
         $validationRules = [
             'title'    => 'required|string',
-            'category' => 'required|string',
+            'category' => 'required|integer',
             'image'    => [
                 'uploaded[image]',
                 'mime_in[image,image/png,image/jpg,image/jpeg]',
@@ -57,7 +55,7 @@ class Posts extends BaseController
 
             $idPost = $this->postModel->insert([
                 'title'      => $this->request->getPost('title'),
-                'category'   => $this->request->getPost('category'),
+                'category_id'   => $this->request->getPost('category'),
                 'content' => $this->request->getPost('content'),
                 'slug' => url_title(url_title($this->request->getPost('title'), '-', true)),
                 'image_path'      => $newName,

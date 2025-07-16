@@ -37,9 +37,15 @@
 
             <div class="mb-6">
                 <label for="category" class="block text-gray-700 font-medium mb-1">Categoría <span class="text-red-500">*</span></label>
-                <input type="text" name="category" id="category" required
+                
+                <select name="category" id="category_id">
+                        <?php  foreach($categories as $category): ?>
+                            <option value="<?= $category->id ?>"> <?= $category->name ?> </option>
+                        <?php endforeach ?>
+                </select>
+                <!-- <input type="text" name="category" id="category" required
                     class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    placeholder="Nombre de la categoría">
+                    placeholder="Nombre de la categoría"> -->
             </div>
 
             <div class="mb-4">

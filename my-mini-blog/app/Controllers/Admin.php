@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 use App\Models\PostModel;
+use \App\Controllers\Categories;
 
 
 class Admin extends BaseController{
@@ -17,17 +18,17 @@ class Admin extends BaseController{
     }
 
     public function dashboard(){
-        $lastPosts = $this->postModel->orderBy('created_at', 'DESC')
-                               ->paginate(15);
+        $posts = $this->postModel->getPostsWithCategory();
+
         $data = [
-            'posts' => $lastPosts
+            'posts' => $posts
         ];
         return view('admin/dashboard',$data);
     }
 
     public function index(){
-        $posts = $this->postModel->orderBy('created_at', 'DESC')
-                               ->paginate(15);
+        $posts = $this->postModel->getPostsWithCategory();
+
         $data = [
             'title' => 'Administrar Todos los Posts - MiniBlog',
             'posts' => $posts
@@ -37,7 +38,9 @@ class Admin extends BaseController{
 
     //crear un post
     public function create(){
-        return view('admin/posts/create');
+        $categoriesController = new Categories();
+        $categories = $categoriesController->getCategories();
+        return view('admin/posts/create',['categories'=>$categories]);
     }
 
     //crear el post
